@@ -1,0 +1,17 @@
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+sqlalchemy==2.0.35
+pandas==2.2.3
+numpy==1.26.4
+# CRITICAL: do not pin xgboost to 2.1.1. That version silently fails to
+# parse this model's base_score ("[-4.9993215E0]" — the bracketed format
+# XGBRegressor.save_model() writes) and resets it to the default 0.5,
+# which shifts EVERY prediction by a constant ~5.5m offset with no error,
+# warning, or crash. Confirmed: xgboost 3.4.1 parses it correctly and
+# predictions match actual readings to within a few cm. If your ML
+# teammate retrains and re-exports gw_model.json, re-verify predictions
+# against a few known rows before trusting any xgboost version here.
+xgboost>=3.0
+python-dotenv==1.0.1
+python-multipart==0.0.9
+psycopg2-binary==2.9.9
